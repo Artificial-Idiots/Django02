@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+{#记载自定义过滤器#}
+{% load filters %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>首页</h1>
+
+# 硬编码
+<a href="/index">进入首页</a> <br>
+# 动态编码
+<a href={% url 'app02:index' %}>进入首页</a> <br>
+
+模板变量不能以下划线开头：{{ number }}
+
+<h3>html转义</h3>
+通过render传给模板的字典数据会发生转义：<br>
+{{ my_html }}
+
+<br>
+通过safe过滤器防止转义：<br>
+{{ my_html|safe }}<br>
+<br>
+
+通过autoescape标签防止转义：<br>
+{% autoescape off %}
+    {{ my_html }}
+    {{ my_html }}
+    {{ my_html }}
+    {{ my_html }}<br>
+{% endautoescape %}
+
+<h1>自定义过滤器</h1>
+判断是否为奇数：{{ number|odd }}<br>
+
+<h1>过滤器</h1>
+<h3>length</h3>
+列表长度：{{ my_list|length }}<br>
+字典的长度：{{ my_dict|length }}<br>
+字符串的长度：{{ my_obj.name|length }}<br>
+
+<h3>default</h3>
+设置默认值：{{ number|default:10 }}<br>
+设置默认值：{{ number2|default:10 }}<br>
+
+<h3>date</h3>
+显示日期（Y-m-d H:i:s）:<br/>
+{{ my_date|date:'Y-m-d H:i:s' }}
+
+<br>
+<br>
+<br>
+<h3>模板变量</h3>
+字典：{{ my_dict.key01 }}<br/>
+字典：{{ my_obj.name }}<br/>
+字典：{{ my_list.1 }}<br/>
+
+<h1>内置标签</h1>
+
+<h3>for使用--遍历列表</h3>
+{% for element in my_list reversed %}
+    {{ element }} <br>
+{% empty %}
+    列表为空
+{% endfor %}
+
+<h3>for使用---遍历字典</h3>
+{% for key, value in my_dict.items %}
+    {{ key }}:{{ value }}<br>
+{% endfor %}
+
+<h3>for使用-- forloop.counter</h3>
+{% for element in my_list %}
+    {{ forloop.counter0 }}{{ element }}<br>
+{% endfor %}
+
+<h3>if使用</h3>
+{% if number == 1 %}
+    1<br>
+{% elif number == 2 %}
+    2<br>
+{% else %}
+    其他
+{% endif %}
+
+<h3>逻辑运算</h3>
+{% if 1 <= number and number <= 10 %}
+    1 <= {{ number }} <= 10 成立
+{% else %}
+    1 <= {{ number }} <= 10 不成立
+{% endif %}
+
+
+</body>
+</html>
